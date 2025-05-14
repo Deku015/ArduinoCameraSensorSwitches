@@ -1,0 +1,64 @@
+IoT Bros project: CSS(Cameras, Sensors, and Swtiches) 
+
+This is a readme file for our CPSC 491 project and pertains to executing and properly handling our code for your esp32 home IOT system
+
+Disclaimer:
+Copyright (C) [2024] [Shadi Hirbawi,(IoT Bros Group)]
+
+This program is free software: you can redistribute it and/or modify  
+it under the terms of the GNU General Public License as published by  
+the Free Software Foundation, either version 3 of the License, or  
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,  
+but WITHOUT ANY WARRANTY; without even the implied warranty of  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the  
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License  
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+
+There will be 4 sections, each for each module and 1 final section for running and viewing them
+
+1. Camera Web Server
+    1. Before use:
+        - Must configure Wifi(Input your SSID and Password into CameraWebServer.ino)
+        - Upload to esp32cam module
+        - When up and running, check serial monitor on aruduino IDE to find IP(Need it for Relay webserver config)
+    2. To use:
+        - Relay webserver will have link to this ip so that you can access camera while on network or away using VPN
+
+2. Distance Triggered Email module
+    1. Before use: 
+        - Must configure Wifi(Input your SSID and Password into ESP32DistanceEmail.ino)
+        - Must configure SMTP sender and recipient 
+            - Sender = esp043802@gmail.com + Password = okcmlmdwbbqqzsag(make random email and enable app passwords)
+            recipient = (Your_email)@gmail.com(you can use another email if you change smtp server, for this config smtp.gmail.com is used)
+        - Must configure Time NTP setup(currently set for Los Angeles)
+        - upload to module
+    2. To use:
+        - Plug in and keep distance from the sensor under 50 cm(adjustable) and once it exceeds it, like opening a window, email + timestamp will be sent to recipient email every 2 minutes  
+
+3. Distance Triggered Camera shot + email(w/attachement)
+    1. Before use:
+        - Must configure Wifi(Input your SSID and Password into Esp32Camera_Ultrasonic_Sensor.ino)
+        - Must configure SMTP sender and recipient 
+            - Sender = esp043802@gmail.com + Password = okcmlmdwbbqqzsag(make random email and enable app passwords)
+            recipient = (Your_email)@gmail.com(you can use another email if you change smtp server, for this config smtp.gmail.com is used)
+        - Must configure Time NTP setup(currently set for Los Angeles)
+        - upload to module
+    2. To use:
+        - Plug in and keep distance greater than 50 cm, if it is less than 50, that means someone has passed in front of it by a door, will trigger and send picture+email+timestamp of intrusion, will delay 5 minutes before second attempt(protocols can take time)
+
+
+4. Relay webserver
+    1. Before use:
+        - Must configure Wifi(Input your SSID and Password into Esp32Switches_490_project.ino)
+        - In HTML webpage section, document.getElementByID("button1"), in the section window.location.href = "PUT IP from previous camera web server(obtain from serial monitor on arduino IDE)"
+        - upload to module
+    2. To use:
+        - Plug in esp32 and connect device to relay in order to turn on and off using the webserver. In order to use this page, find the ip in the serial monitor on the arduino IDE, use this as your primary address for relay and camera streaming.
+
+If all devices are plugged in, the entire network should be connected and up and running.
+The VPN services are commented out in this code(WireGuard) uncomment for it to be used on Esp32Swtiches_490_project.ino
+Credit to : Shadi Hirbawi, Jair Chavez
